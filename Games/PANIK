@@ -1,4 +1,6 @@
-local WINDOW = (...)
+local ARGS = {...}
+local WINDOW = ARGS[1]
+local NOTIFICATION = ARGS[2]
 local MAIN_TAB = WINDOW:MakeTab({
    Name = "MAIN",
    Icon = nil,
