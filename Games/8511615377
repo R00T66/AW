@@ -5,7 +5,7 @@ local MAIN_TAB = WINDOW:MakeTab({
    PremiumOnly = false
 })
 local AUTO_SEC = MAIN_TAB:AddSection({Name = "AUTO FARM"})
-local AUTO_COMPLETE = MAIN_SEC:AddButton({
+local AUTO_COMPLETE = AUTO_SEC:AddButton({
   Name = "AUTO COMPLETE (RARELY BUGGY)",
   Callback = function()
      loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/PAC"))()
