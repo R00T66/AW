@@ -1,0 +1,3 @@
+local Args = {...}
+
+warn(Args[1], Args[2])
