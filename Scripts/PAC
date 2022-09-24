@@ -88,7 +88,6 @@ local GetItems = function(Scanner)
 end
 
 local GrabItem = function(String)
-   print("Searching For " .. String)
    if not Items:FindFirstChild(String) then
       for i, v in pairs(ItemsTable["FrozenFood"]) do
          if String == v then
@@ -139,7 +138,6 @@ local GrabItem = function(String)
       until ProximityPrompt.Parent == nil or Yield > 350
       
       SetLoopTP = nil
-      warn("Complete", String, Yield, Item)
    else
       local Item = Items:FindFirstChild(String)
       local ProximityPrompt;
@@ -159,8 +157,6 @@ local GrabItem = function(String)
               Yield = Yield + 1
           end
       until ProximityPrompt.Parent == nil or Yield > 350
-      
-      warn("Complete", String, Yield, Item)
    end
 end
 
@@ -215,7 +211,7 @@ local Escape = function()
    end
 end
 
-game:GetService("RunService").RenderStepped:Connect(function(...)
+local ScannerService = game:GetService("RunService").Stepped:Connect(function(...)
     if (Scanners:FindFirstChild("Scanner " .. tostring(Current)) and not Checking and not Doing) or Current == 4 then
        Checking = true
        
@@ -263,14 +259,17 @@ game:GetService("RunService").RenderStepped:Connect(function(...)
     if not Scanners:FindFirstChild("Scanner " .. tostring(Current)) and Current ~= 4 then
        warn("Can't Find Scanner", Current, "???")
     end
-    
+end)
+
+local MiscService = game:GetService("RunService").RenderStepped:Connect(function(...)
     if SetLoopTP ~= nil then
        AttemptTP(Areas[SetLoopTP])
     end
+    
+    if game:GetService("Players").LocalPlayer.Character then
+       if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+          game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = 16
+          game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid").HipHeight = 1.8
+       end
+    end 
 end)
-
-game:GetService("StarterGui"):SetCore("SendNotification", {
-   Title = "SUCCESS",
-   Text = "LOADED! HAVE FUN :)",
-   Duration = 10
-})
