@@ -15,14 +15,22 @@ local ORION = loadstring(
    ConfigFolder = nil,
    IntroText = "ARAB-WARE",
    IntroIcon = "rbxassetid://8288908869"
-})
+}); local NOTIFICATION = function(Title, Text, Duration, Image)
+   return ORION:MakeNotification({
+	  Name = Title,
+	  Content = Text,
+	  Image = Image,
+	  Time = Duration
+   })
+end
 
 --//
 
 local PlaceID = game.PlaceId
 
 if PlaceID == 10509101797 or PlaceID == 10219766033 then
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/8511615377"))(WINDOW)
+   NOTIFICATION("LOADING PANIK", "HANG TIGHT!", 3, nil)
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/PANIK"))(WINDOW)
 elseif PlaceID == 8511615377 then
    return
 end
