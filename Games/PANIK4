@@ -13,8 +13,8 @@ local AUTO_COMPLETE = AUTO_SEC:AddButton({
   Callback = function()
      local Scanners = workspace:WaitForChild("Scanners")
      
-     if #Scanners:GetChildren() ~= 3 or #Scanners:GetChildren() ~= 0 then
-        NOTIFICATION("...", "WAI FOR THE GAME TO START!", 10, nil)
+     if #Scanners:GetChildren() ~= 3 or #Scanners:GetChildren() == 0 then
+        NOTIFICATION("...", "WAIT FOR THE GAME TO START!", 10, nil)
         
         return
      end
