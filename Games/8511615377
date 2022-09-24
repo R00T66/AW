@@ -1,1 +1,46 @@
-
+local WINDOW = (...)
+local MAIN_TAB = WINDOW:MakeTab({
+   Name = "MAIN",
+   Icon = nil,
+   PremiumOnly = false
+})
+local AUTO_SEC = MAIN_TAB:AddSection({Name = "AUTO FARM"})
+local AUTO_COMPLETE = MAIN_SEC:AddButton({
+  Name = "AUTO COMPLETE (RARELY BUGGY)",
+  Callback = function()
+     loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/PAC"))()
+  end
+})
+local MAIN_SEC = MAIN_TAB:AddSection({Name = "MISC"})
+local WALK_SET = MAIN_SEC:AddSlider({
+  Name = "WALKSPEED",
+  Min = 16,
+  Max = 25,
+  Default = 6,
+  Color = Color3.fromRGB(255,255,255),
+  Increment = 1,
+  ValueName = "WALKSPEED",
+  Callback = function(Value)
+     if game:GetService("Players").LocalPlayer.Character then
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+           game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = Value
+        end
+     end
+  end
+})
+local HIPH_SET = MAIN_SEC:AddSlider({
+  Name = "HIP HEIGHT",
+  Min = 1.8,
+  Max = 25,
+  Default = 1.8,
+  Color = Color3.fromRGB(255,255,255),
+  Increment = 0.1,
+  ValueName = "HIP HEIGHT",
+  Callback = function(Value)
+     if game:GetService("Players").LocalPlayer.Character then
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+           game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid").HipHeight = Value
+        end
+     end
+  end
+})
