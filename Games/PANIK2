@@ -6,10 +6,20 @@ local MAIN_TAB = WINDOW:MakeTab({
    Icon = nil,
    PremiumOnly = false
 })
+local EXECUTED = false
 local AUTO_SEC = MAIN_TAB:AddSection({Name = "AUTO FARM"})
 local AUTO_COMPLETE = AUTO_SEC:AddButton({
   Name = "AUTO COMPLETE (RARELY BUGGY)",
   Callback = function()
+     local Scanners = workspace:WaitForChild("Scanners")
+     
+     if #Scanners:GetChildren() ~= 3 or #Scanner:GetChildren() ~= 0 then
+        NOTIFICATION("LOADING", "WAITING FOR GAME TO START!", 10, nil)
+        
+        return
+     end
+    
+     EXECUTED = true
      loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/PAC"))()
   end
 })
