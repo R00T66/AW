@@ -249,7 +249,7 @@ local ScannerService = game:GetService("RunService").Stepped:Connect(function(..
           
           Current = Current + 1
           Doing = false
-          wait(.7)
+          wait(.9)
           Checking = false
        end
        
