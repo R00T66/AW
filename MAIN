@@ -35,5 +35,5 @@ end
 
 if PlaceID == 9431156611 then
    NOTIFICATION("LOADING [SLAP ROYALE]", "HANG TIGHT!", 3, nil)
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/SLAPROYALE"))(WINDOW, NOTIFICATION)
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/SLAP%20ROYALE"))(WINDOW, NOTIFICATION)
 end
