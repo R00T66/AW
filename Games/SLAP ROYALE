@@ -46,10 +46,10 @@ local FindItem = function(Name)
    return false
 end
 
-local Items = MAIN_TAB:AddSection({Name = "ITEMS"})
+local ItemsS = MAIN_TAB:AddSection({Name = "ITEMS"})
 
 for i, v in pairs(Items) do
-   Items:AddButton({
+   ItemsS:AddButton({
      Name = "GET" .. v:upper(),
      Callback = function()
         local ItemFound = FindItem(v)
