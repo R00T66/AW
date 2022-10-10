@@ -22,7 +22,12 @@ local Items = {
  "Bandage",
  "First Aid Kit",
  "Potion of Strength",
- "Potion of Speed"
+ "Speed Potion",
+ "Frog Potion",
+ "Lightning Potion",
+ "Apple",
+ "Cube of Ice",
+ "Forcefield Crystal"
 }
 
 local GetLeg = function()
