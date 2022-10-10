@@ -1,0 +1,62 @@
+local ARGS = {...}
+local WINDOW = ARGS[1]
+local NOTIFICATION = ARGS[2]
+local MAIN_TAB = WINDOW:MakeTab({
+   Name = "MAIN",
+   Icon = nil,
+   PremiumOnly = false
+})
+
+local Items = {
+ "Bull's essence",
+ "Sphere of fury",
+ "True Power",
+ "Boba",
+ "Forcefield Crystal",
+ "Healing Potion",
+ "Bandage",
+ "First Aid Kit",
+ "Potion of Strength",
+ "Potion of Speed"
+}
+
+local GetLeg = function()
+   local Legs = {"Left Leg", "Right Leg"}
+   
+   return game:GetService("Players").LocalPlayer.Character[Legs[math.random(1, #Legs)]]
+end
+
+local FindItem = function(Name)
+   if workspace:FindFirstChild(Name) then
+      
+      local Item = workspace:FindFirstChild(Name)
+      
+      if (Item:IsA("Tool") and Item:FindFirstChild("Handle")) then
+         
+         local Handle = Item:FindFirstChild("Handle")
+         local TouchP = GetLeg()
+         
+         firetouchinterest(TouchP, Handle, 0)
+         firetouchinterest(TouchP, Handle, 1)   
+         
+         return true
+      end
+   end
+   
+   return false
+end
+
+local Items = MAIN_TAB:AddSection({Name = "ITEMS"})
+
+for i, v in pairs(Items) do
+   Items:AddButton({
+     Name = "GET" .. v:upper(),
+     Callback = function()
+        local ItemFound = FindItem(v)
+        
+        if not ItemFound then
+           NOTIFICATION("ERROR", "ITEM WAS NOT FOUND!", 5, nil)
+        end
+     end
+   })
+end
