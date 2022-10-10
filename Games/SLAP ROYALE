@@ -55,8 +55,13 @@ local ItemsS = ITEM_GRABBER:AddSection({Name = "ITEMS"})
 
 for i, v in pairs(Items) do
    ItemsS:AddButton({
-     Name = "GET" .. v:upper(),
+     Name = "GET [" .. v:upper() .. "]",
      Callback = function()
+        if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
+           NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
+           
+           return
+        end
         local ItemFound = FindItem(v)
         
         if not ItemFound then
