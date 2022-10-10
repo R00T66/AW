@@ -6,6 +6,11 @@ local MAIN_TAB = WINDOW:MakeTab({
    Icon = nil,
    PremiumOnly = false
 })
+local ITEM_GRABBER = WINDOW:MakeTab({
+   Name = "ITEM GRABBER",
+   Icon = nil,
+   PremiumOnly = false
+})
 
 local Items = {
  "Bull's essence",
@@ -46,7 +51,7 @@ local FindItem = function(Name)
    return false
 end
 
-local ItemsS = MAIN_TAB:AddSection({Name = "ITEMS"})
+local ItemsS = ITEM_GRABBER:AddSection({Name = "ITEMS"})
 
 for i, v in pairs(Items) do
    ItemsS:AddButton({
@@ -60,3 +65,5 @@ for i, v in pairs(Items) do
      end
    })
 end
+
+MAIN_TAB:AddSection({Name = "COMING SOON!"})
