@@ -32,3 +32,8 @@ if PlaceID == 10509101797 or PlaceID == 10219766033 then
    NOTIFICATION("LOADING [PANIK]", "HANG TIGHT!", 3, nil)
    loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/PANIK"))(WINDOW, NOTIFICATION)
 end
+
+if PlaceID == 9431156611 then
+   NOTIFICATION("LOADING [SLAP ROYALE]", "HANG TIGHT!", 3, nil)
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/SLAPROYALE"))(WINDOW, NOTIFICATION)
+end
