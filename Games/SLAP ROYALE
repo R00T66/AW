@@ -70,7 +70,7 @@ for i, v in pairs(Items) do
    for z, x in pairs(v) do
       if workspace:FindFirstChild(x) then
          Section:AddButton({
-           Name = "GET [" .. v:upper() .. "]",
+           Name = "GET [" .. x:upper() .. "]",
            Callback = function()
               if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
                  NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
