@@ -13,28 +13,31 @@ local ITEM_GRABBER = WINDOW:MakeTab({
 })
 
 local Items = {
- ["Power"] = {
+ [1] = {
+   ["Name"] = "Power",
    "Bull's essence",
    "Sphere of fury",
    "True Power",
-   "Potion of Strength",
    "Cube of Ice"
  },
- ["Potions"] = {
+ [2] = {
+  ["Name"] = "Potions",
   "Healing Potion", 
   "Speed Potion",
   "Lightning Potion",
   "Frog Potion",
   "Potion of Strength"
  },
- ["Healing"] = {
+ [3] = {
+  ["Name"] = "Healing",
   "Bandage",
   "First Aid Kit", 
   "Apple"
  },
- ["Misc"] = {
- "Boba",
- "Forcefield Crystal" 
+ [4] = {
+  ["Name"] = "Misc",
+  "Boba",
+  "Forcefield Crystal" 
  }
 }
 
@@ -65,7 +68,7 @@ local FindItem = function(Name)
 end
 
 for i, v in pairs(Items) do
-   local Section = ITEM_GRABBER:AddSection({Name = i:upper()})
+   local Section = ITEM_GRABBER:AddSection({Name = v["Name"]:upper()})
    local FoundSection = false
    
    for z, x in pairs(v) do
