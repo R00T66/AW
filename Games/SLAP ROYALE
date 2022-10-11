@@ -65,13 +65,13 @@ local FindItem = function(Name)
 end
 
 for i, v in pairs(Items) do
-   local Section = ITEM_GRABBER:AddSection({Name = i})
+   local Section = ITEM_GRABBER:AddSection({Name = i:upper()})
    
    for z, x in pairs(v) do
       if workspace:FindFirstChild(x) then
          Section:AddButton({
            Name = "GET [" .. x:upper() .. "]",
-           Callback = function()
+           Callback = function(...)
               if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
                  NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
            
@@ -88,4 +88,11 @@ for i, v in pairs(Items) do
    end
 end
 
-MAIN_TAB:AddSection({Name = "COMING SOON!"})
+local TPS = MAIN_TAB:AddSection({Name = "TELEPORTS"})
+
+TPS:AddButton({
+  Name = "QUEUE",
+  Callback = function(...)
+     game:GetService("TeleportService"):Teleport(9426795465) 
+  end
+})
