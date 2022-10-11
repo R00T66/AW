@@ -66,6 +66,7 @@ end
 
 for i, v in pairs(Items) do
    local Section = ITEM_GRABBER:AddSection({Name = i:upper()})
+   local FoundSection = false
    
    for z, x in pairs(v) do
       if workspace:FindFirstChild(x) then
@@ -84,7 +85,12 @@ for i, v in pairs(Items) do
               end
            end
          })
+         FoundSection = true
       end
+   end
+   
+   if not FoundSection then
+      Section:AddLabel("NO ITEMS IN THIS CATEGORY WERE FOUND!")
    end
 end
 
