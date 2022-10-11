@@ -13,20 +13,29 @@ local ITEM_GRABBER = WINDOW:MakeTab({
 })
 
 local Items = {
- "Bull's essence",
- "Sphere of fury",
- "True Power",
+ ["Power"] = {
+   "Bull's essence",
+   "Sphere of fury",
+   "True Power",
+   "Potion of Strength",
+   "Cube of Ice"
+ },
+ ["Potions"] = {
+  "Healing Potion", 
+  "Speed Potion",
+  "Lightning Potion",
+  "Frog Potion",
+  "Potion of Strength"
+ },
+ ["Healing"] = {
+  "Bandage",
+  "First Aid Kit", 
+  "Apple"
+ },
+ ["Misc"] = {
  "Boba",
- "Healing Potion",
- "Bandage",
- "First Aid Kit",
- "Potion of Strength",
- "Speed Potion",
- "Frog Potion",
- "Lightning Potion",
- "Apple",
- "Cube of Ice",
- "Forcefield Crystal"
+ "Forcefield Crystal" 
+ }
 }
 
 local GetLeg = function()
@@ -55,25 +64,27 @@ local FindItem = function(Name)
    return false
 end
 
-local ItemsS = ITEM_GRABBER:AddSection({Name = "ITEMS"})
-
 for i, v in pairs(Items) do
-   if workspace:FindFirstChild(v) then
-   ItemsS:AddButton({
-     Name = "GET [" .. v:upper() .. "]",
-     Callback = function()
-        if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
-           NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
+   local Section = ITEM_GRABBER:AddSection({Name = i})
+   
+   for z, x in pairs(v) do
+      if workspace:FindFirstChild(x) then
+         Section:AddButton({
+           Name = "GET [" .. v:upper() .. "]",
+           Callback = function()
+              if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
+                 NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
            
-           return
-        end
-        local ItemFound = FindItem(v)
+                 return
+              end
+              local ItemFound = FindItem(v)
         
-        if not ItemFound then
-           NOTIFICATION("ERROR", "ITEM WAS NOT FOUND!", 5, nil)
-        end
-     end
-   })
+              if not ItemFound then
+                 NOTIFICATION("ERROR", "ITEM WAS NOT FOUND!", 5, nil)
+              end
+           end
+         })
+      end
    end
 end
 
