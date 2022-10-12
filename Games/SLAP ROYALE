@@ -216,3 +216,21 @@ game:GetService("RunService").RenderStepped:Connect(function(...)
        end
     end
 end)
+
+local Players = game:GetService("Players")
+local ModCheck = function(Player)
+   local GroupRole = Player:GetRoleInGroup(9950771)
+   local ModRoles = {"Junior Staff", "Trial Staff", "Staff", "Senior Staff", "Staff Supervisor", "OVERSEER", "Owner"}
+   
+   if table.find(ModRoles, GroupRole) then
+      NOTIFICATION("ALERT", ("MODERATOR FOUND: " .. Player.Name), 5, nil)
+   else
+      return
+   end
+end
+
+Players.PlayerAdded:Connect(ModCheck)
+
+for i, v in pairs(Players:GetPlayers()) do
+   ModCheck(v)
+end
