@@ -105,3 +105,29 @@ TPS:AddButton({
      game:GetService("TeleportService"):Teleport(9426795465) 
   end
 })
+
+TPS:AddButton({
+  Name = "PRIVATE",
+  Callback = function(...)
+     game:GetService("TeleportService"):Teleport(9431156611) 
+  end
+})
+
+local OTH = MAIN_TAB:AddSection({Name = "OTHER"})
+
+OTH:AddButton({
+  Name = "Exploiter Check",
+  Callback = function()
+     local ToolCount = 0
+     
+     for i, v in pairs(workspace:GetChildren()) do
+        if v:IsA("Tool") then ToolCount = ToolCount + 1 end
+     end
+     
+     if ToolCount == 0 or ToolCount < 5 then
+        NOTIFICATION("EXPLOITER CHECK", "A POSSIBLE EXPLOITER IS IN THIS SERVER!", 10, nil)
+     else
+        NOTIFICATION("EXPLOITER CHECK", "NO EXPLOITERS FOUND IN THIS SERVER!", 5, nil)    
+     end
+  end
+})
