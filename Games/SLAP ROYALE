@@ -11,6 +11,28 @@ local ITEM_GRABBER = WINDOW:MakeTab({
    Icon = nil,
    PremiumOnly = false
 })
+local Hook;
+local LastSlapped;
+local LastSlapText;
+Hook = hookmetamethod(game, "__namecall", function(self, ...)
+    local Method = getnamecallmethod()
+    local Args = { ... }
+    
+    if Method == "FireServer" then
+       if self.Name:lower() == "slap" then
+          local PlayerName = Args[1].Parent
+          
+          if game:GetService("Players"):FindFirstChild(PlayerName) then
+             LastSlapped = game:GetService("Players"):FindFirstChild(PlayerName
+             if LastSlapText ~= nil then
+                LastSlapText:Set("TARGET: " .. LastSlapped.Name)
+             end
+          end
+       end
+    end
+    
+    return Hook(self, ...)
+end)  
 
 local Items = {
  [1] = {
@@ -114,6 +136,32 @@ TPS:AddButton({
 })
 
 local OTH = MAIN_TAB:AddSection({Name = "OTHER"})
+
+LastSlapText = OTH:AddLabel("NO ONE")
+
+OTH:AddButton({
+  Name = "Slap Last",
+  Callback = function()
+     if LastSlapped ~= nil then
+        if LastSlapped.Character then
+           if LastSlapped.Character:FindFirstChild("Left Leg") then
+              
+              local SlapPart = LastSlapped.Character:FindFirstChild("Left Leg")
+              local SlapRemote = game:GetService("ReplicatedStorage"):WaitForChild("Slap")
+              
+              SlapPart:FireServer(SlapRemote)
+              NOTIFICATION("SUCCESS", "🤚 SLAPPED 🤚", 3, nil)
+           else
+              NOTIFICATION("ERROR", "NO LAST SLAP TARGET PART?", 5, nil)
+           end
+        else
+           NOTIFICATION("ERROR", "NO LAST SLAP TARGET CHARACTER?", 5, nil)
+        end
+     else
+        NOTIFICATION("ERROR", "NO LAST SLAP TARGET?", 5, nil)
+     end
+  end
+})
 
 OTH:AddButton({
   Name = "Exploiter Check",
