@@ -11,28 +11,6 @@ local ITEM_GRABBER = WINDOW:MakeTab({
    Icon = nil,
    PremiumOnly = false
 })
-local Hook;
-local LastSlapped;
-local LastSlapText;
-Hook = hookmetamethod(game, "__namecall", function(self, ...)
-    local Method = getnamecallmethod()
-    local Args = { ... }
-    
-    if Method == "FireServer" then
-       if self.Name:lower() == "slap" then
-          local PlayerName = Args[1].Parent
-          
-          if game:GetService("Players"):FindFirstChild(PlayerName) then
-             LastSlapped = game:GetService("Players"):FindFirstChild(PlayerName)
-             if LastSlapText ~= nil then
-                LastSlapText:Set("TARGET: " .. LastSlapped.Name)
-             end
-          end
-       end
-    end
-    
-    return Hook(self, ...)
-end)  
 
 local Items = {
  [1] = {
@@ -63,6 +41,29 @@ local Items = {
  }
 }
 
+local SlapNearest = false
+local NearestPlayer = nil
+local NearestText = nil
+local GetNearestPlayer = function()
+   local cam = workspace.CurrentCamera
+   local dist = 99999
+   local player;
+   
+   pcall(function(...)
+   for i,v in pairs(game.Players:GetChildren()) do if v ~= game.Players.LocalPlayer and v.Character then
+         local newdist = (game.Players.LocalPlayer.Character.Torso.CFrame.p - v.Character.Torso.CFrame.p).Magnitude
+         if newdist < dist then
+            dist = newdist
+            player = v
+         end
+      end 
+   end
+   end)
+   
+   if player.Character then
+      return player,dist
+   end
+end
 local GetLeg = function()
    local Legs = {"Left Leg", "Right Leg"}
    
@@ -88,6 +89,31 @@ local FindItem = function(Name)
    
    return false
 end
+
+local GA = ITEM_GRABBER:AddSection({
+  Name = "EVERYTHING",
+})
+
+GA:AddButton({
+  Name = "GRAB ALL",
+  Callback = function()
+ 
+    if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
+        NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
+           
+        return
+     end
+     for i, v in pairs(Items) do
+        for z, x in pairs(v) do
+           if z ~= "Name" then
+              if workspace:FindFirstChild(x) then
+                  FindItem(x)
+              end
+           end
+        end
+     end
+  end
+})
 
 for i, v in pairs(Items) do
    local Section = ITEM_GRABBER:AddSection({Name = v["Name"]:upper()})
@@ -135,30 +161,26 @@ TPS:AddButton({
   end
 })
 
+local OTH = MAIN_TAB:AddSection({Name = "SLAPPING"})
+NearestText = OTH:AddLabel("NEAREST: NULL")
+local GNP = OTH:AddToggle({
+  Name = "SLAP NEAREST",
+  Default = false,
+  Callback = function(Bool)
+     SlapNearest = Bool
+  end
+})
+
 local OTH = MAIN_TAB:AddSection({Name = "OTHER"})
 
-LastSlapText = OTH:AddLabel("NO ONE")
-
 OTH:AddButton({
-  Name = "Slap Last",
+  Name = "Remove Zone",
   Callback = function()
-     if LastSlapped ~= nil then
-        if LastSlapped.Character then
-           if LastSlapped.Character:FindFirstChild("Left Leg") then
-              
-              local SlapPart = LastSlapped.Character:FindFirstChild("Left Leg")
-              local SlapRemote = game:GetService("ReplicatedStorage"):WaitForChild("Slap")
-              
-              SlapPart:FireServer(SlapRemote)
-              NOTIFICATION("SUCCESS", "🤚 SLAPPED 🤚", 3, nil)
-           else
-              NOTIFICATION("ERROR", "NO LAST SLAP TARGET PART?", 5, nil)
-           end
-        else
-           NOTIFICATION("ERROR", "NO LAST SLAP TARGET CHARACTER?", 5, nil)
-        end
-     else
-        NOTIFICATION("ERROR", "NO LAST SLAP TARGET?", 5, nil)
+     if workspace:FindFirstChild("Zone1") then
+        workspace:FindFirstChild("Zone1"):Destroy()
+     end
+      if workspace:FindFirstChild("Zone2") then
+        workspace:FindFirstChild("Zone2"):Destroy()
      end
   end
 })
@@ -179,3 +201,18 @@ OTH:AddButton({
      end
   end
 })
+
+game:GetService("RunService").RenderStepped:Connect(function(...)
+    if SlapNearest and not _G.DisabledForUser then
+       local Player,Distance = GetNearestPlayer()
+       local PlayerParts = {"HumanoidRootPart", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Head"}
+       local Part = PlayerParts[math.random(1, #PlayerParts)]
+       
+       if Player ~= nil then
+          if NearestText ~= nil then NearestText:Set("NEAREST: " .. Player.Name .. " (" .. tostring(Distance) .. ")") end
+          if Distance < 30 then
+             game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Slap"):FireServer(Player.Character[Part])
+          end
+       end
+    end
+end)
