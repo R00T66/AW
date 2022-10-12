@@ -23,7 +23,7 @@ Hook = hookmetamethod(game, "__namecall", function(self, ...)
           local PlayerName = Args[1].Parent
           
           if game:GetService("Players"):FindFirstChild(PlayerName) then
-             LastSlapped = game:GetService("Players"):FindFirstChild(PlayerName
+             LastSlapped = game:GetService("Players"):FindFirstChild(PlayerName)
              if LastSlapText ~= nil then
                 LastSlapText:Set("TARGET: " .. LastSlapped.Name)
              end
