@@ -42,6 +42,7 @@ local Items = {
 }
 
 local SlapNearest = false
+local CollectWitch = false
 local NearestPlayer = nil
 local NearestText = nil
 local GetNearestPlayer = function()
@@ -49,20 +50,20 @@ local GetNearestPlayer = function()
    local dist = 99999
    local player;
    
-   pcall(function(...)
    for i,v in pairs(game.Players:GetChildren()) do if v ~= game.Players.LocalPlayer and v.Character then
-         local newdist = (game.Players.LocalPlayer.Character.Torso.CFrame.p - v.Character.Torso.CFrame.p).Magnitude
-         if newdist < dist then
-            dist = newdist
-            player = v
+         if v.Character:FindFirstChild("Torso") and v.Character:FindFirstChild("Humanoid") then
+            local newdist = (game.Players.LocalPlayer.Character.Torso.Position - v.Character.Torso.Position).Magnitude
+            local humanoid = v.Character:FindFirstChild("Humanoid")
+         
+            if newdist < dist and humanoid.Health ~= 0 then
+               dist = newdist
+               player = v
+            end
          end
       end 
    end
-   end)
    
-   if player.Character then
-      return player,dist
-   end
+   return player,dist
 end
 local GetLeg = function()
    local Legs = {"Left Leg", "Right Leg"}
@@ -70,10 +71,10 @@ local GetLeg = function()
    return game:GetService("Players").LocalPlayer.Character[Legs[math.random(1, #Legs)]]
 end
 
-local FindItem = function(Name)
-   if workspace:FindFirstChild(Name) then
+local FindItem = function(Name, PreItem)
+   if workspace:FindFirstChild(Name) or PreItem ~= nil then
       
-      local Item = workspace:FindFirstChild(Name)
+      local Item = PreItem or workspace:FindFirstChild(Name)
       
       if (Item:IsA("Tool") and Item:FindFirstChild("Handle")) then
          
@@ -90,9 +91,15 @@ local FindItem = function(Name)
    return false
 end
 
-local GA = ITEM_GRABBER:AddSection({
-  Name = "EVERYTHING",
-})
+-- sections
+
+local TPS = MAIN_TAB:AddSection({Name = "TELEPORTS"})
+local SLP = MAIN_TAB:AddSection({Name = "SLAP AURA"})
+local OTH = MAIN_TAB:AddSection({Name = "OTHER"})
+local GA = ITEM_GRABBER:AddSection({Name = "EVERYTHING"})
+local HA = ITEM_GRABBER:AddSection({Name = "HALLOWEEN"})
+
+-- item grabber section
 
 GA:AddButton({
   Name = "GRAB ALL",
@@ -107,7 +114,11 @@ GA:AddButton({
         for z, x in pairs(v) do
            if z ~= "Name" then
               if workspace:FindFirstChild(x) then
-                  FindItem(x)
+                 for c, b in pairs(workspace:GetChildren()) do
+                    if b:IsA("Tool") then
+                       FindItem(b.Name, b)
+                    end
+                 end
               end
            end
         end
@@ -145,7 +156,15 @@ for i, v in pairs(Items) do
    end
 end
 
-local TPS = MAIN_TAB:AddSection({Name = "TELEPORTS"})
+HA:AddToggle({
+  Name = "Witch Brew",
+  Default = false,
+  Callback = function(Bool)
+     CollectWitch = Bool
+  end
+})
+
+-- main section
 
 TPS:AddButton({
   Name = "QUEUE",
@@ -161,9 +180,9 @@ TPS:AddButton({
   end
 })
 
-local OTH = MAIN_TAB:AddSection({Name = "SLAPPING"})
-NearestText = OTH:AddLabel("NEAREST: NULL")
-local GNP = OTH:AddToggle({
+NearestText = SLP:AddLabel("NEAREST: NULL")
+
+local GNP = SLP:AddToggle({
   Name = "SLAP NEAREST",
   Default = false,
   Callback = function(Bool)
@@ -171,7 +190,23 @@ local GNP = OTH:AddToggle({
   end
 })
 
-local OTH = MAIN_TAB:AddSection({Name = "OTHER"})
+local GTN = SLP:AddButton({
+  Name = "TELEPORT NEAREST",
+  Callback = function()
+     local Player,Distance = GetNearestPlayer()
+     NearestText:set("NEAREST: " .. tostring(Player.Name):upper() .. " (" .. tostring(Distance) .. ")") 
+     if Player ~= nil then
+        if Player.Character then
+           if Player.Character:FindFirstChild("HumanoidRootPart") then
+               
+              local HumanoidRootPart = Player.Character:FindFirstChild("HumanoidRootPart")
+              
+              game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = HumanoidRootPart.CFrame
+           end
+        end
+     end
+  end
+})
 
 OTH:AddButton({
   Name = "Remove Zone",
@@ -202,6 +237,28 @@ OTH:AddButton({
   end
 })
 
+OTH:AddButton({
+  Name = "Witch Check",
+  Callback = function()
+     local WitchFound = false
+     
+     for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+        if v:FindFirstChild("Glove") then
+           if v:FindFirstChild("Glove").Value:lower() == "witch" then
+              NOTIFICATION("WITCH CHECK", tostring(v.Name):upper() .. " HAS WITCH!", 5, nil)
+              WitchFound = true
+           end
+        end
+     end
+     
+     if not WitchFound then
+        NOTIFICATION("WITCH CHECK", "NOBODY HAS WITCH!", 15, nil)
+     end
+  end
+})
+
+-- connections
+
 game:GetService("RunService").RenderStepped:Connect(function(...)
     if SlapNearest and not _G.DisabledForUser then
        local Player,Distance = GetNearestPlayer()
@@ -209,13 +266,31 @@ game:GetService("RunService").RenderStepped:Connect(function(...)
        local Part = PlayerParts[math.random(1, #PlayerParts)]
        
        if Player ~= nil then
-          if NearestText ~= nil then NearestText:Set("NEAREST: " .. Player.Name .. " (" .. tostring(Distance) .. ")") end
+          if NearestText ~= nil then NearestText:Set("NEAREST: " .. tostring(Player.Name):upper() .. " (" .. tostring(Distance) .. ")") end
           if Distance < 30 then
              game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Slap"):FireServer(Player.Character[Part])
           end
        end
     end
 end)
+
+workspace.ChildAdded:Connect(function(Child)
+    if Child.Name == "Witch Brew" and CollectWitch then
+       local Handle = Child:WaitForChild("Handle")
+       
+       if workspace:FindFirstChild("Witch Brew") then
+          repeat wait()
+            if workspace:FindFirstChild("Witch Brew") then
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, Handle, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, Handle, 1)
+            end
+          until not workspace:FindFirstChild("Witch Brew")
+          NOTIFICATION("WITCH BREW", "COLLECTED!", 10, nil)
+       end
+    end
+end)
+
+-- mod check functions/connections
 
 local Players = game:GetService("Players")
 local ModCheck = function(Player)
