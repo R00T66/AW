@@ -202,8 +202,10 @@ local Escape = function()
       if Part:FindFirstChild("Prompt") then
          
          local ProxPrompt = Part:FindFirstChild("Prompt")
+         local EscapeYield = 0
          
          repeat wait()
+             EscapeYield = EscapeYield + 1
              AttemptTP(ProxPrompt.Parent.CFrame)
              fireproximityprompt(ProxPrompt, 0)
          until EscapeYield > 100 or ProxPrompt.Parent == nil
