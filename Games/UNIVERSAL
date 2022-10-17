@@ -1,0 +1,121 @@
+-- locales
+
+local UNIVERSAL_TAB = WINDOW:MakeTab({Name = "UNIVERSAL"})
+local UNIVERSAL_ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/KIRMODIFIED"))()
+local UNIVERSAL_SET = {
+ ["Enabled"] = false,
+ ["Boxes"] = true,
+ ["FaceCamera"] = true,
+ ["TeamColor"] = true,
+ ["Color"] = Color3.fromRGB(255, 255, 255),
+ ["TeamMates"] = true,
+ ["ShowHealth"] = true
+}
+
+-- services
+
+local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
+
+-- functions
+
+local UNIVERSAL_SAVE = function()
+   writefile("UniversalAW.lua", HttpService:JSONEncode(UNIVERSAL_SET))
+end
+
+local UNIVERSAL_LOAD = function()
+   if isfile("UniversalAW.lua") then
+      local Table = HttpService:JSONDecode(readfile("UniversalAW.lua")) 
+      for i, v in pairs(Table) do
+         UNIVERSAL_SET[i] = v
+      end
+   end
+end
+
+-- sections
+
+local ESPSection = UNIVERSAL_TAB:AddSection({Name = tostring("esp settings"):upper()})
+local SETSection = UNIVERSAL_TAB:AddSection({Name = tostring("universal settings"):upper()})
+
+-- loading
+
+UNIVERSAL_LOAD()
+
+-- setup
+
+for i, v in pairs(UNIVERSAL_SET) do
+   UNIVERSAL_ESP[i] = v
+end
+
+-- esp section
+
+ESPSection:AddToggle({
+  Name = tostring("enabled"):upper(),
+  Default = UNIVERAL_SET["Enabled"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["Enabled"] = Boolean
+  end
+})
+
+ESPSection:AddToggle({
+  Name = tostring("show health"):upper(),
+  Default = UNIVERAL_SET["ShowHealth"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["ShowHealth"] = Boolean
+  end
+})
+
+ESPSection:AddToggle({
+  Name = tostring("boxes"):upper(),
+  Default = UNIVERAL_SET["Boxes"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["Boxes"] = Boolean
+  end
+})
+
+ESPSection:AddToggle({
+  Name = tostring("face camera"):upper(),
+  Default = UNIVERAL_SET["FaceCamera"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["FaceCamera"] = Boolean
+  end
+})
+
+ESPSection:AddToggle({
+  Name = tostring("show team"):upper(),
+  Default = UNIVERAL_SET["TeamMates"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["TeamMates"] = Boolean
+  end
+})
+
+ESPSection:AddToggle({
+  Name = tostring("team color"):upper(),
+  Default = UNIVERAL_SET["TeamColor"],
+  Callback = function(Boolean)
+     UNIVERAL_SET["TeamColor"] = Boolean
+  end
+})
+
+ESPSection:AddColorpicker({
+  Name = tostring("color"):upper(),
+  Default = UNIVERSAL_SET["Color"],
+  Callback = function(ColorValue)
+     UNIVERSAL_SET["Color"] = ColorValue
+  end 
+})
+
+-- universal settings
+
+SETSection:AddButton({
+  Name = tostring("save settings"):upper(),
+  Callback = UNIVERSAL_SAVE
+})
+
+-- connections
+
+RunService.RenderStepped:Connect(function(...)
+    for i, v in pairs(UNIVERSAL_SET) do
+       UNIVERSAL_ESP[i] = v
+    end
+end) 
