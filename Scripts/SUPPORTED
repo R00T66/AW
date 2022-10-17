@@ -1,0 +1,35 @@
+-- loadstring stuff
+
+local ARGS = {...}
+local WINDOW = ARGS[1]
+local NOTIFICATION = ARGS[2]
+
+-- tabs
+
+local SUPPORT_TAB = WINDOW:MakeTab({
+   Name = "SUPPORTED GAMES",
+   Icon = nil,
+   PremiumOnly = false
+})
+
+-- locales
+
+local Games = {
+ ["PANIK"] = 8511615377,
+ ["SLAP ROYALE"] = 9426795465
+}
+
+-- services
+
+local TeleportService = game:GetService("TeleportService")
+
+-- setup
+
+for i, v in pairs(Games) do
+   SUPPORT_TAB:AddButton({
+     Name = "[TELEPORT TO " .. tostring(i):upper() .. "]",
+     Callback = function()
+        TeleportService:Teleport(v)
+     end
+   })
+end
