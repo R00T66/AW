@@ -1,10 +1,10 @@
---// PRELOAD
+-- preloading (auto-exec)
 
 repeat wait() until game["IsLoaded"]
 repeat wait() until game:GetService("Players")["LocalPlayer"]
 repeat wait() until game:GetService("Players")["LocalPlayer"]["Character"]
 
---// LOADSTRING CHECK
+-- loadstring check
 
 local Args = (...) or nil
 
@@ -12,15 +12,15 @@ if Args == nil then
    return
 end
 
---// UI SETUP 
+-- ui
 
 local ORION = loadstring(
    game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source")
 )(); local WINDOW = ORION:MakeWindow({
    Name = "ARAB-WARE",
    HidePremium = true,
-   SaveConfig = false,
-   ConfigFolder = nil,
+   SaveConfig = true,
+   ConfigFolder = "ARABWARE",
    IntroText = "ARAB-WARE",
    IntroIcon = "rbxassetid://8288908869"
 }); local NOTIFICATION = function(Title, Text, Duration, Image)
@@ -32,7 +32,7 @@ local ORION = loadstring(
    })
 end
 
---// GAME DETECTION / UNIVERSAL
+-- game detection
 
 local PlaceID = game.PlaceId
 
@@ -45,3 +45,7 @@ if PlaceID == 9431156611 then
    NOTIFICATION("LOADING [SLAP ROYALE]", "HANG TIGHT!", 3, nil)
    loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/SLAP%20ROYALE"))(WINDOW, NOTIFICATION)
 end
+
+-- universal tab
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/UNIVERSAL"))(WINDOW, NOTIFICATION)
