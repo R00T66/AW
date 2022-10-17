@@ -29,7 +29,10 @@ for i, v in pairs(Games) do
    SUPPORT_TAB:AddButton({
      Name = "[TELEPORT TO " .. tostring(i):upper() .. "]",
      Callback = function()
-        TeleportService:Teleport(v)
+        NOTIFICATION("[TELEPORTING]", "HOLD ON!", 10, nil)
+        while wait() do 
+           TeleportService:Teleport(v)
+        end
      end
    })
 end
