@@ -1,6 +1,11 @@
+-- loadstring stuff
+
 local ARGS = {...}
 local WINDOW = ARGS[1]
 local NOTIFICATION = ARGS[2]
+
+-- tabs
+
 local MAIN_TAB = WINDOW:MakeTab({
    Name = "MAIN",
    Icon = nil,
@@ -11,6 +16,8 @@ local ITEM_GRABBER = WINDOW:MakeTab({
    Icon = nil,
    PremiumOnly = false
 })
+
+-- locales
 
 local Items = {
  [1] = {
@@ -45,6 +52,9 @@ local SlapNearest = false
 local CollectWitch = false
 local NearestPlayer = nil
 local NearestText = nil
+
+-- functions
+
 local GetNearestPlayer = function()
    local cam = workspace.CurrentCamera
    local dist = 99999
@@ -65,6 +75,7 @@ local GetNearestPlayer = function()
    
    return player,dist
 end
+
 local GetLeg = function()
    local Legs = {"Left Leg", "Right Leg"}
    
