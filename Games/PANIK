@@ -1,20 +1,34 @@
+-- loadstring stuff
+
 local ARGS = {...}
 local WINDOW = ARGS[1]
 local NOTIFICATION = ARGS[2]
+
+-- tabs
+
 local MAIN_TAB = WINDOW:MakeTab({
    Name = "MAIN",
    Icon = nil,
    PremiumOnly = false
 })
+-- locales
+
 local EXECUTED = false
+
+-- sections
+
 local AUTO_SEC = MAIN_TAB:AddSection({Name = "AUTO FARM"})
+local MAIN_SEC = MAIN_TAB:AddSection({Name = "MISC"})
+
+-- autofarm section
+
 local AUTO_COMPLETE = AUTO_SEC:AddButton({
   Name = "AUTO COMPLETE (RARELY BUGGY)",
   Callback = function()
      local Scanners = workspace:WaitForChild("Scanners")
      
      if #Scanners:GetChildren() ~= 3 or #Scanners:GetChildren() == 0 then
-        NOTIFICATION("...", "WAIT FOR THE GAME TO START!", 5, nil)
+        NOTIFICATION("[ERROR]", "WAIT FOR THE GAME TO START!", 5, nil)
         
         return
      end
@@ -23,11 +37,13 @@ local AUTO_COMPLETE = AUTO_SEC:AddButton({
         EXECUTED = true
         loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/PAC"))()
      else
-         NOTIFICATION("...", "ALREADY EXECUTED!", 5, nil)
+         NOTIFICATION("[ERROR]", "ALREADY EXECUTED!", 5, nil)
      end
   end
 })
-local MAIN_SEC = MAIN_TAB:AddSection({Name = "MISC"})
+
+-- main section
+
 local WALK_SET = MAIN_SEC:AddSlider({
   Name = "WALKSPEED",
   Min = 16,
@@ -44,6 +60,7 @@ local WALK_SET = MAIN_SEC:AddSlider({
      end
   end
 })
+
 local HIPH_SET = MAIN_SEC:AddSlider({
   Name = "HIP HEIGHT",
   Min = 1.8,
