@@ -117,7 +117,7 @@ GA:AddButton({
   Callback = function()
  
     if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
-        NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
+        NOTIFICATION("[ERROR]", "WAIT FOR THE GAME TO START!", 5, nil)
            
         return
      end
@@ -147,14 +147,14 @@ for i, v in pairs(Items) do
            Name = "GET [" .. x:upper() .. "]",
            Callback = function(...)
               if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Countdown") then
-                 NOTIFICATION("ERROR", "WAIT FOR THE GAME TO START!", 5, nil)
+                 NOTIFICATION("[ERROR]", "WAIT FOR THE GAME TO START!", 5, nil)
            
                  return
               end
               local ItemFound = FindItem(x)
         
               if not ItemFound then
-                 NOTIFICATION("ERROR", "ITEM WAS NOT FOUND!", 5, nil)
+                 NOTIFICATION("[ERROR]", "ITEM WAS NOT FOUND!", 5, nil)
               end
            end
          })
@@ -241,9 +241,9 @@ OTH:AddButton({
      end
      
      if ToolCount == 0 or ToolCount < 5 then
-        NOTIFICATION("EXPLOITER CHECK", "A POSSIBLE EXPLOITER IS IN THIS SERVER!", 10, nil)
+        NOTIFICATION("[EXPLOITER CHECK]", "A POSSIBLE EXPLOITER IS IN THIS SERVER!", 10, nil)
      else
-        NOTIFICATION("EXPLOITER CHECK", "NO EXPLOITERS FOUND IN THIS SERVER!", 5, nil)    
+        NOTIFICATION("[EXPLOITER CHECK]", "NO EXPLOITERS FOUND IN THIS SERVER!", 5, nil)    
      end
   end
 })
@@ -256,14 +256,14 @@ OTH:AddButton({
      for i, v in pairs(game:GetService("Players"):GetPlayers()) do
         if v:FindFirstChild("Glove") then
            if v:FindFirstChild("Glove").Value:lower() == "witch" then
-              NOTIFICATION("WITCH CHECK", tostring(v.Name):upper() .. " HAS WITCH!", 5, nil)
+              NOTIFICATION("[WITCH CHECK]", tostring(v.Name):upper() .. " HAS WITCH!", 5, nil)
               WitchFound = true
            end
         end
      end
      
      if not WitchFound then
-        NOTIFICATION("WITCH CHECK", "NOBODY HAS WITCH!", 15, nil)
+        NOTIFICATION("[WITCH CHECK]", "NOBODY HAS WITCH!", 15, nil)
      end
   end
 })
@@ -296,7 +296,7 @@ workspace.ChildAdded:Connect(function(Child)
                 firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, Handle, 1)
             end
           until not workspace:FindFirstChild("Witch Brew")
-          NOTIFICATION("WITCH BREW", "COLLECTED!", 10, nil)
+          NOTIFICATION("[WITCH BREW]", "COLLECTED!", 10, nil)
        end
     end
 end)
@@ -309,7 +309,7 @@ local ModCheck = function(Player)
    local ModRoles = {"Junior Staff", "Trial Staff", "Staff", "Senior Staff", "Staff Supervisor", "OVERSEER", "Owner"}
    
    if table.find(ModRoles, GroupRole) then
-      NOTIFICATION("ALERT", ("MODERATOR FOUND: " .. Player.Name), 5, nil)
+      NOTIFICATION("[ALERT]", ("MODERATOR FOUND: " .. Player.Name), 5, nil)
    else
       return
    end
