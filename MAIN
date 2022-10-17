@@ -32,20 +32,33 @@ local ORION = loadstring(
    })
 end
 
+-- locales
+
+local SupportedGame = false
+
 -- game detection
 
 local PlaceID = game.PlaceId
 
 if PlaceID == 10509101797 or PlaceID == 10219766033 then
-   NOTIFICATION("LOADING [PANIK]", "HANG TIGHT!", 3, nil)
+   NOTIFICATION("[LOADING PANIK]", "HANG TIGHT!", 3, nil)
    loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/PANIK"))(WINDOW, NOTIFICATION)
+   SupportedGame = true
 end
 
 if PlaceID == 9431156611 then
-   NOTIFICATION("LOADING [SLAP ROYALE]", "HANG TIGHT!", 3, nil)
+   NOTIFICATION("[LOADING SLAP ROYALE]", "HANG TIGHT!", 3, nil)
    loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/SLAP%20ROYALE"))(WINDOW, NOTIFICATION)
+   SupportedGame = true
 end
 
 -- universal tab
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Games/UNIVERSAL"))(WINDOW, NOTIFICATION)
+
+-- supported game detection tab thingy thing thing lol yeah
+
+if not SupportedGame then
+   NOTIFICATION("[UNIVERSAL LOADED]", "SEE OUR SUPPORTED GAMES TAB!", 15, nil)
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/SUPPORTED"))(WINDOW, NOTIFICATION)
+end
