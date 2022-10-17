@@ -4,10 +4,13 @@ local ARGS = {...}
 local WINDOW = ARGS[1]
 local NOTIFICATION = ARGS[2]
 
--- locales
+-- tabs
 
 local UNIVERSAL_TAB = WINDOW:MakeTab({Name = "UNIVERSAL"})
 local UNIVERSAL_ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/R00T66/AW/main/Scripts/KIRIOT"))()
+
+-- locales
+
 local UNIVERSAL_SET = {
  ["Enabled"] = false,
  ["Boxes"] = true,
