@@ -223,7 +223,20 @@ function boxBase:Update()
     else
         self.Components.Quad.Visible = false
     end
-
+ 
+    if ESP.ShowHealth then
+	local Prime = self.PrimaryPart["Parent"]	
+			
+        if Prime:FindFirstChild("Humanoid") and ESP.ShowHealth then
+           self.Components.Health.Visible = true
+           self.Components.Health.Position = Vector2.new(TagPos.X, TagPos.Y + 28)
+           self.Components.Health.Text = "[" .. GetHealth(Prime:FindFirstChild("Humanoid")) .. "]"
+           self.Components.Health.Color = color
+	end   
+    else
+       self.Components.Health.Visible = false
+    end
+    
     if ESP.Names then
         local TagPos, Vis5 = WorldToViewportPoint(cam, locs.TagPos.p)
         
@@ -237,21 +250,9 @@ function boxBase:Update()
             self.Components.Distance.Position = Vector2.new(TagPos.X, TagPos.Y + 14)
             self.Components.Distance.Text = math.floor((cam.CFrame.p - cf.p).magnitude) .."M"
             self.Components.Distance.Color = color
-      
-	   local Prime = self.PrimaryPart["Parent"]	
-			
-	    if Prime:FindFirstChild("Humanoid") and ESP.ShowHealth then
-                self.Components.Health.Visible = true
-                self.Components.Health.Position = Vector2.new(TagPos.X, TagPos.Y + 28)
-                self.Components.Health.Text = "[" .. GetHealth(Prime:FindFirstChild("Humanoid")) .. "]"
-                self.Components.Health.Color = color
-	   else
-	      box.Components["Health"].Visible = false
-	   end
         else
             self.Components.Name.Visible = false
             self.Components.Distance.Visible = false
-	    self.Components.Health.Visible = false
         end
     else
         self.Components.Name.Visible = false
