@@ -40,6 +40,7 @@ end
 -- connections
 
 Client.OnTeleport:Connect(function(State)
+    warn(State == Enum.TeleportState.Failed)
     if State == Enum.TeleportState.Failed then
        NOTIFICATION("[ERROR]", "CAN'T TELEPORT? DOES THIS GAME HAVE THIRD PARTY ENABLED?", 5, nil)
     end
